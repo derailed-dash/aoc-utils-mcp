@@ -15,6 +15,15 @@ It also acts as a useful example of how to implement a FastMCP server for Python
 - [FastMCP Gemini Integration](https://gofastmcp.com/integrations/gemini-cli)
 - [Dazbo's Advent of Code Solutions Repo](https://github.com/derailed-dash/advent-of-code)
 
+## Demo from Gemini CLI
+
+My prompt to Gemini CLI: 
+
+_Fetch the input data for AoC 2022 day 1, and save to tmp/aoc_2022_day1_input.txt_
+
+![MCP server running](/media/get-aoc-input.png)
+
+
 ## Running the MCP Server
 
 Pre-reqs for development and running locally:
@@ -112,6 +121,10 @@ So instead, I just create this entry in my `settings.json`, in my AoC project:
 ```
 
 Note: **You need to ensure your AOC_SESSION_COOKIE environment is set before launching Gemini CLI.**
+
+We can check the MCP server is running in Gemini CLI:
+
+![MCP server running](/media/mcp-running-in-gemini.png)
 
 ## Appendix
 
