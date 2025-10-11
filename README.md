@@ -40,7 +40,7 @@ export AOC_SESSION_COOKIE=<session key>
 fastmcp run my_server.py
 
 # Or to run with HTTP transport:
-fastmcp run server.py --transport http --port 8000
+fastmcp run server.py --transport http --port 9000
 
 # Or if we just configure using the `fastmcp.json`, we don't need any parameters:
 fastmcp run # If fastmcp.json is in the cwd

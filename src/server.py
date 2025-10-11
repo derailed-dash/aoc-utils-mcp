@@ -88,4 +88,4 @@ async def health_check(request: Request | None = None):
 # fastmcp run server.py:mcp --transport http --port 8000
 if __name__ == "__main__":
     # mcp.run() # Run the server with STDIO transport - recommended for local dev
-    mcp.run(transport="http", host="0.0.0.0", port=8000) # http://localhost:8000/mcp/
+    mcp.run(transport="http", host="0.0.0.0") # http://localhost:8000/mcp/
