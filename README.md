@@ -21,8 +21,11 @@ My prompt to Gemini CLI:
 
 _Fetch the input data for AoC 2022 day 1, and save to tmp/aoc_2022_day1_input.txt_
 
-![MCP server running](/media/get-aoc-input.png)
+![Get AoC Input](/media/get-aoc-input.png)
 
+And it has saved the file!
+
+![File Saved](/media/file-saved.png)
 
 ## Running the MCP Server
 
