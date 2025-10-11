@@ -1,10 +1,10 @@
 # The Aoc-Utils MCP Server
 
-Exposes Advent of Code (AoC) utilities as an MCP server, e.g.
+This repo contains an MCP server that exposes handy Advent of Code (AoC) utilities, e.g.
 
 - The `get_puzzle_input(year: int, day: int)` retrieves your puzzle data for a given specific year and day.
 
-This is a useful example of how to implement a FastMCP server for Python functions.
+It also acts as a useful example of how to implement a FastMCP server for Python functions, and explains how to integrate the MCP server into an AI tool like Gemini CLI.
 
 ## Useful Links
 
@@ -70,12 +70,9 @@ source .venv/bin/activate
 python3 tests/a_client.py 
 ```
 
-## Deploying to FastMCP Cloud
-
-We can optionally deploy the sever to FastMCP Cloud to make it publicly accessible.
-Note that FastMCP Cloud automatically detects and uses `pyproject.toml`.
-
 ## Installing the MCP Server into Gemini CLI
+
+I struggled to install with either of these approaches:
 
 ```bash
 # Using FastMCP CLI, which automatically calls the Gemini CLI MCP management system
@@ -84,14 +81,52 @@ fastmcp install gemini-cli server.py \
   --project /path/to/your/project \
   --env AOC_SESSION_COOKIE=$AOC_SESSION_COOKIE
 
-# Dependency handling:
-# Add --with uvicorn --with requests
-# OR
-# Add --with-requirements requirements.txt
-# OR use fastmcp.json
-
-# OR add it as an MCP server without the integration
+# Using `gemini mcp add`
 gemini mcp add aoc-utils-mcp \
   uv -- run --project /path/to/project --with fastmcp fastmcp run server.py \
   -e AOC_SESSION_COOKIE=$AOC_SESSION_COOKIE
+```
+
+So instead, I just create this entry in my `settings.json`, in my AoC project:
+
+```json
+{
+  "mcpServers": {
+    "aoc-utils-mcp": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "fastmcp",
+        "fastmcp",
+        "run",
+        "/home/darren/localdev/python/aoc-utils-mcp/src/server.py"
+      ],
+      "env": {
+        "AOC_SESSION_COOKIE": "${AOC_SESSION_COOKIE}"
+      },
+      "cwd": "/home/darren/localdev/python/aoc-utils-mcp/src"
+    }
+  }
+}
+```
+
+Note: **You need to ensure your AOC_SESSION_COOKIE environment is set before launching Gemini CLI.**
+
+## Appendix
+
+### Deploying to FastMCP Cloud
+
+We can optionally deploy the sever to FastMCP Cloud to make it publicly accessible.
+Note that FastMCP Cloud automatically detects and uses `pyproject.toml`.
+
+### Troubleshooting
+
+#### Terminating the Background Process
+
+If we're having trouble closing the background process...
+
+```bash
+pgrep -f "fastmcp"
+kill <PID>
 ```
