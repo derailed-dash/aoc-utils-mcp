@@ -1,0 +1,67 @@
+[project]
+name = "mcp-aoc-utils"
+version = "0.1.0"
+description = "Dazbo's Advent of Code utilities MCP server."
+authors = [
+    {name = "Darren", email = "derailed.dash@gmail.com"},
+]
+requires-python = ">=3.13"
+
+dependencies = [
+    "fastmcp",
+    "fastapi",
+    "requests",
+    "asyncio",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "uv", # Although uv is installed globally, it's good to list it for clarity
+    "codespell",
+    "ruff",
+    "mypy",
+    "isort",
+    "httpx",
+    "pytest-asyncio",
+    "types-requests"
+]
+
+[project.optional-dependencies]
+lint = [
+    "ruff",
+    "mypy",
+    "codespell",
+]
+
+[tool.ruff]
+line-length = 130
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "W",   # pycodestyle warnings
+    "I",   # isort
+    "C",  # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "UP", # pyupgrade
+    "RUF", # ruff specific rules
+]
+# ignore line too long, too complex, two blank lines, trailing whitespace 
+ignore = [
+    "E302", # expected two blank lines between defs
+    "W291", # trailing whitespace
+    "W293"  # line contains whitespace
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = ["tests"] # This helps pytest to find tests, making collection faster
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
