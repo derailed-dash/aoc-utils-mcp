@@ -96,6 +96,31 @@ python3 tests/a_client.py
 gemini extensions install https://github.com/derailed-dash/aoc-utils-mcp
 ```
 
+Note that you can enable and disable extensions at global (user) and workspace level. This is configured in `~/.gemini/extensions/extension-enablement.json`. For example, to enable this extension only in a specific workspace:
+
+```json
+{
+  "adk-docs-ext": {
+    "overrides": [
+      "/home/darren/*"
+    ]
+  },
+  "gcloud": {
+    "overrides": [
+      "/home/darren/*"
+    ]
+  },
+  "aoc-utils": {
+    "overrides": [
+      "!/home/darren/*",
+      "/home/darren/localdev/python/advent-of-code/*"
+    ]
+  }
+}
+```
+
+We can see that the `aoc-utils` extension is disabled (`!`) at global level, but enabled in the `advent-of-code` workspace.
+
 ### Installing the MCP Server Only
 
 I struggled to install with either of these approaches:
