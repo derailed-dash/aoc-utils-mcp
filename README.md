@@ -8,6 +8,7 @@ It also acts as a useful example of how to implement a FastMCP server for Python
 
 ## Useful Links
 
+- [Advent of Code](https://adventofcode.com/)
 - [Dazbo's Advent of Code Walkthroughs](https://aoc.just2good.co.uk/)
 - [FastMCP Quickstart](https://gofastmcp.com/getting-started/quickstart)
 - [FastMCP Cloud](https://gofastmcp.com/deployment/fastmcp-cloud)
