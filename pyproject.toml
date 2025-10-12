@@ -60,8 +60,16 @@ ignore = [
 known-first-party = ["src"]
 
 [tool.pytest.ini_options]
-pythonpath = "."
-testpaths = ["tests"] # This helps pytest to find tests, making collection faster
+pythonpath = "mcp-server"
+asyncio_mode = "auto"
+
+[tool.mypy]
+mypy_path = "mcp-server"
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+namespace_packages = true
+explicit_package_bases = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src"]
+packages = ["mcp-server/src"]

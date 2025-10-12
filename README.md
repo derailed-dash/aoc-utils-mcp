@@ -1,6 +1,6 @@
-# The Aoc-Utils MCP Server
+# The Aoc-Utils MCP Server and Gemini Extension
 
-This repo contains an MCP server that exposes handy Advent of Code (AoC) utilities, e.g.
+This repo contains an extension and MCP server that exposes handy Advent of Code (AoC) utilities, e.g.
 
 - The `get_puzzle_input(year: int, day: int)` retrieves your puzzle data for a given specific year and day.
 
@@ -21,13 +21,15 @@ My prompt to Gemini CLI:
 
 _Fetch the input data for AoC 2022 day 1, and save to tmp/aoc_2022_day1_input.txt_
 
-![Get AoC Input](/media/get-aoc-input.png)
+![Get AoC Input](/docs/media/get-aoc-input.png)
 
 And it has saved the file!
 
-![File Saved](/media/file-saved.png)
+![File Saved](/docs/media/file-saved.png)
 
-## Running the MCP Server
+## Development
+
+### Running the MCP Server
 
 Pre-reqs for development and running locally:
 
@@ -43,7 +45,7 @@ Note that the `fastmcp` CLI automatically integrates with `uv` to manage
 environments and dependencies.
 
 ```bash
-cd src
+cd mcp-server/src
 
 # PRE-REQ: Ensure AOC_SESSION_COOKIE is set as env var
 export AOC_SESSION_COOKIE=<session key>
@@ -60,17 +62,19 @@ fastmcp run path/to/fastmcp.json
 fastmcp run prod.fastmcp.json # use a specific json
 ```
 
+Check it's [healthy](http://127.0.0.1:8000/health).
+
 Note that command-line arguments override the `fastmcp.json` configuration.
 
-## Testing
+### Testing
 
 We can test two ways:
 
-### Unit Testing
+#### Unit Testing
 
 Use the `make test` shortcut.
 
-### With the Sample Client
+#### With the Sample Client
 
 Run a separate terminal session, and from there:
 
@@ -82,7 +86,16 @@ source .venv/bin/activate
 python3 tests/a_client.py 
 ```
 
-## Installing the MCP Server into Gemini CLI
+## Installing into Gemini CLI
+
+### Installing as an Extension
+
+```bash
+# Install from the GitHub URL
+gemini extensions install https://github.com/derailed-dash/aoc-utils-mcp
+```
+
+### Installing the MCP Server Only
 
 I struggled to install with either of these approaches:
 
@@ -127,7 +140,7 @@ Note: **You need to ensure your AOC_SESSION_COOKIE environment is set before lau
 
 We can check the MCP server is running in Gemini CLI:
 
-![MCP server running](/media/mcp-running-in-gemini.png)
+![MCP server running](/docs/media/mcp-running-in-gemini.png)
 
 ## Appendix
 

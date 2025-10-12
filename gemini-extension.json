@@ -1,0 +1,22 @@
+{
+  "name": "aoc-utils",
+  "version": "0.1.0",
+  "description": "Utilities for Advent of Code (AoC)",
+  "mcpServers": {
+    "aoc-utils-mcp": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "fastmcp",
+        "fastmcp",
+        "run",
+        "${extensionPath}/mcp-server/src/server.py"
+      ],
+      "env": {
+        "AOC_SESSION_COOKIE": "${AOC_SESSION_COOKIE}"
+      },
+      "cwd": "${extensionPath}/mcp-server/src"
+    }
+  }
+}

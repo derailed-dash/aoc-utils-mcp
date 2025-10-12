@@ -7,7 +7,6 @@ install:
 
 # Run unit tests
 test:
-	@test -n "$(AOC_SESSION_COOKIE)" || (echo "Error: AOC_SESSION_COOKIE is not set. Setup environment before running tests" && exit 1)
 	uv run pytest tests
 
 # Run code quality checks (codespell, ruff, mypy)
