@@ -32,7 +32,9 @@ And it has saved the file!
 
 ### Running the MCP Server
 
-Pre-reqs for development and running locally:
+#### Pre-Reqs for Local Development and Testing
+
+Start by loading your dependencies into the virtual environment:
 
 ```bash
 # Create venv and activate
@@ -40,7 +42,13 @@ uv sync
 source .venv/bin/activate
 ```
 
-Then launch the server.
+Then retrieve your AoC session key:
+
+This AoC MCP server is designed to retrieve your specific AoC input data. To do so, you'll need to supply your unique AoC session key. This is easy to get. Open the [Advent of Code](https://adventofcode.com/) website and ensure you are logged in. Then open developer tools in your browser (F12), open the `Application` tab, then expand Cookies and find the cookie called `session`. Copy the value against this cookie.
+
+#### Running the Server
+
+Now we can launch the server.
 
 Note that the `fastmcp` CLI automatically integrates with `uv` to manage
 environments and dependencies.
@@ -51,8 +59,11 @@ cd mcp-server/src
 # PRE-REQ: Ensure AOC_SESSION_COOKIE is set as env var
 export AOC_SESSION_COOKIE=<session key>
 
+# View FastMCP CLI help
+fastmcp 
+
 # To launch the server with default stdio transport
-fastmcp run my_server.py
+fastmcp run server.py
 
 # Or to run with HTTP transport:
 fastmcp run server.py --transport http --port 9000
@@ -63,21 +74,23 @@ fastmcp run path/to/fastmcp.json
 fastmcp run prod.fastmcp.json # use a specific json
 ```
 
-Check it's [healthy](http://127.0.0.1:8000/health).
-
 Note that command-line arguments override the `fastmcp.json` configuration.
 
 ### Testing
 
-We can test two ways:
+We can test a few ways:
 
 #### Unit Testing
 
-Use the `make test` shortcut.
+Use the `make test` shortcut to run unit tests. These tests do not the actual MCP server.
+
+#### Checking the Server is Healthy
+
+If we've started the MCP server, we can check it's [healthy](http://127.0.0.1:8000/health).
 
 #### With the Sample Client
 
-Run a separate terminal session, and from there:
+If the MCP server is running, we can test from a separate terminal session:
 
 ```bash
 # Activate the venv
