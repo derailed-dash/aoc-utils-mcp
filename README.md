@@ -98,7 +98,7 @@ uv sync
 source .venv/bin/activate
 
 # Launch a client with Python - requires server to be HTTP
-python3 tests/a_client.py 
+python3 tests/a_client.py --port 8000
 ```
 
 ## Installing into Gemini CLI
@@ -165,12 +165,12 @@ So instead, I just create this entry in my `settings.json`, in my AoC project:
         "fastmcp",
         "fastmcp",
         "run",
-        "/home/darren/localdev/python/aoc-utils-mcp/src/server.py"
+        "/home/darren/localdev/python/aoc-utils-mcp/mcp-server/src/server.py"
       ],
       "env": {
         "AOC_SESSION_COOKIE": "${AOC_SESSION_COOKIE}"
       },
-      "cwd": "/home/darren/localdev/python/aoc-utils-mcp/src"
+      "cwd": "/home/darren/localdev/python/aoc-utils-mcp/mcp-server/src"
     }
   }
 }
