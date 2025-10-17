@@ -1,5 +1,5 @@
 """
-This module implements a simple tool server using FastMCP.
+This module implements a Advent of Code tool server using FastMCP.
 
 The server exposes a single tool, `get_puzzle_input`, which allows a client
 to fetch puzzle inputs from the Advent of Code website.
@@ -17,7 +17,9 @@ from fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-mcp = FastMCP(name="aoc-utils",
+MCP_SERVER_NAME = "aoc-utils"
+
+mcp = FastMCP(name=MCP_SERVER_NAME,
               instructions="""
                   This MCP server provides utilities for working with Advent of Code.
                   Call get_puzzle_input(year, day) to fetch the puzzle input for a given year and day.
@@ -80,7 +82,7 @@ async def health_check(request: Request | None = None):
     """ Check MCP server health.
     E.g. http://127.0.0.1:8000/health 
     """
-    return JSONResponse({"status": "healthy", "service": "mcp-server"})
+    return JSONResponse({"status": "healthy", "service": f"{MCP_SERVER_NAME}"})
 
 # To ensure the server only starts when the script is executed directly,
 # and not when imported as a module

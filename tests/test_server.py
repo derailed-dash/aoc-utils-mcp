@@ -37,7 +37,7 @@ async def test_health_check():
     mock_request = MagicMock()
     response = await health_check(mock_request)
     assert response.status_code == 200
-    assert response.body == b'{"status":"healthy","service":"mcp-server"}'
+    assert response.body == b'{"status":"healthy","service":"aoc-utils"}'
 
 
 @pytest.mark.asyncio
