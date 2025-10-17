@@ -94,6 +94,7 @@ If the MCP server is running, we can test from a separate terminal session:
 
 ```bash
 # Activate the venv
+uv sync
 source .venv/bin/activate
 
 # Launch a client with Python - requires server to be HTTP
