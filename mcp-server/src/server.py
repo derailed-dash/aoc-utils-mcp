@@ -1,12 +1,9 @@
 """
 This module implements a Advent of Code tool server using FastMCP.
 
-The server exposes a single tool, `get_puzzle_input`, which allows a client
-to fetch puzzle inputs from the Advent of Code website.
-
-FastMCP is used to quickly and easily create a web server that conforms to
-the MCP specification, allowing it to be discoverable and usable by other systems, 
-such as Large Language Model-based agents.
+The server exposes tools:
+- `get_puzzle`: fetch the puzzle description for this particular day
+- `get_puzzle_input`: fetch the unique puzzle input data from this particular day
 """
 import logging
 import os
@@ -22,16 +19,62 @@ MCP_SERVER_NAME = "aoc-utils"
 mcp = FastMCP(name=MCP_SERVER_NAME,
               instructions="""
                   This MCP server provides utilities for working with Advent of Code.
-                  Call get_puzzle_input(year, day) to fetch the puzzle input for a given year and day.
+                  - Call get_puzzle(year, day) to fetch the puzzle description for a given year and day.
+                  - Call get_puzzle_input_data(year, day) to fetch the puzzle input data for a given year and day.
               """,
 )
 
 logging.basicConfig(level=logging.DEBUG if os.getenv("DEBUG") else logging.INFO)
 logger = logging.getLogger(__name__)
 
-@mcp.tool # registers this function as a tool
-async def get_puzzle_input(year: int, day: int) -> dict:
-    """ Fetches AoC puzzle input for a given year and day.
+@mcp.tool # register this function as a tool
+async def get_puzzle(year: int, day: int) -> dict:
+    """ Fetches the AoC puzzle description for a given year and day.
+
+    Args:
+        year: int
+        day: int
+
+    Returns:
+        dict: {"result": str, "content": str}
+    """
+    logger.info(f"Fetching puzzle description for {year}-{day}")
+    
+    if not year or not day:
+        raise ValueError("'year' and 'day' are required.")
+
+    session_cookie = os.getenv("AOC_SESSION_COOKIE")
+    if not session_cookie:
+        raise HTTPException(
+            status_code=500, detail="AOC_SESSION_COOKIE secret is not set."
+        )
+
+    url = f"https://adventofcode.com/{int(year)}/day/{int(day)}"
+    cookies = {"session": session_cookie}
+
+    try:
+        response = requests.get(url, cookies=cookies, timeout=5)
+        response.raise_for_status()  # Raises an exception for 4XX/5XX errors
+        logger.info(f"Response={response.text}")
+        
+        return {"result": "success", "content": response.text.strip()}
+
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 404:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Puzzle for {year}-12-{day} not found. Is it released yet?"
+            ) from e
+        else:
+            raise HTTPException(
+                status_code=e.response.status_code, detail=f"HTTP Error: {e}"
+            ) from e
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch data: {e}") from e
+
+@mcp.tool # register this function as a tool
+async def get_puzzle_input_data(year: int, day: int) -> dict:
+    """ Fetches AoC puzzle input data for a given year and day.
 
     Args:
         year: int
@@ -57,9 +100,6 @@ async def get_puzzle_input(year: int, day: int) -> dict:
     try:
         response = requests.get(url, cookies=cookies, timeout=5)
         response.raise_for_status()  # Raises an exception for 4XX/5XX errors
-        
-        # The tool's result must be JSON serializable.
-        # We return the content to be used by another tool like write_file.
         logger.info(f"Response={response.text}")
         
         return {"result": "success", "content": response.text.strip()}

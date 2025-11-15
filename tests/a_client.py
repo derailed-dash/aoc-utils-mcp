@@ -17,8 +17,11 @@ def main():
 
     async def call_tool(year: int, day: int):
         async with client:
-            result = await client.call_tool("get_puzzle_input", {"year": year, "day": day})
-            print(result)
+            puzzle = await client.call_tool("get_puzzle", {"year": year, "day": day})
+            print(f"Puzzle: {puzzle}")
+            
+            input_data = await client.call_tool("get_puzzle_input_data", {"year": year, "day": day})
+            print(f"Input data: {input_data}")
 
     asyncio.run(call_tool(2024, 1))
 
